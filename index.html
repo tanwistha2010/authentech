@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Portal Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== Login Section ===== -->
+  <div id="login-section" class="section active">
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="Enter Username" required>
+
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter Password" required>
+
+        <label>User Type</label>
+        <select id="userType" required>
+          <option value="">Select User Type</option>
+          <option value="student">Student</option>
+          <option value="university">University</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <button type="submit">Login</button>
+      </form>
+      <p id="loginError" class="error"></p>
+    </div>
+  </div>
+
+  <!-- ===== Student Section ===== -->
+  <div id="student-section" class="section hidden">
+    <div class="portal-container">
+      <header>
+        <h1>Student Portal</h1>
+        <button onclick="logout()">Logout</button>
+      </header>
+      <form id="uploadForm">
+        <label>Name:</label>
+        <input type="text" id="studentName" required>
+
+        <label>Roll No:</label>
+        <input type="text" id="rollNo" required>
+
+        <label>Course:</label>
+        <input type="text" id="course" required>
+
+        <label>Upload Certificate:</label>
+        <input type="file" id="certificateFile" accept=".pdf,.jpg,.png" required>
+
+        <button type="submit">Upload</button>
+      </form>
+      <div id="studentStatus"></div>
+      <!-- Student Portal: Certificate List -->
+<h2>Your Certificates</h2>
+<div id="studentCertificates"></div>
+    </div>
+  </div>
+
+  <!-- ===== University Section ===== -->
+  <div id="university-section" class="section hidden">
+    <div class="portal-container">
+      <header>
+        <h1>University Portal</h1>
+        <button onclick="logout()">Logout</button>
+      </header>
+      <div id="requests"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
