@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificate Portal Demo</title>
+  <title>AuthenTech</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,6 +30,33 @@
         <button type="submit">Login</button>
       </form>
       <p id="loginError" class="error"></p>
+      <p>Don’t have an account? <a href="#" onclick="showRegister()">Register</a></p>
+    </div>
+  </div>
+
+  <!-- ===== Register Section ===== -->
+  <div id="register-section" class="section hidden">
+    <div class="login-container">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <label>Username</label>
+        <input type="text" id="regUsername" placeholder="Choose Username" required>
+
+        <label>Password</label>
+        <input type="password" id="regPassword" placeholder="Choose Password" required>
+
+        <label>User Type</label>
+        <select id="regUserType" required>
+          <option value="">Select User Type</option>
+          <option value="student">Student</option>
+          <option value="university">University</option>
+          <option value="admin">Admin</option>
+        </select>
+
+        <button type="submit">Register</button>
+      </form>
+      <p id="registerError" class="error"></p>
+      <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
     </div>
   </div>
 
@@ -56,9 +83,10 @@
         <button type="submit">Upload</button>
       </form>
       <div id="studentStatus"></div>
+
       <!-- Student Portal: Certificate List -->
-<h2>Your Certificates</h2>
-<div id="studentCertificates"></div>
+      <h2>Your Certificates</h2>
+      <div id="studentCertificates"></div>
     </div>
   </div>
 
