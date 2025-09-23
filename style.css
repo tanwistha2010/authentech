@@ -122,3 +122,14 @@ body {
   cursor: pointer;
 }
 #studentCertificates .view-btn:hover { background: #2575fc; }
+#adminUsers, #adminCertificates {
+  margin-top: 10px;
+}
+
+.admin-role, .admin-cert {
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
