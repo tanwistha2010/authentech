@@ -63,14 +63,20 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
 
   if(validUser){
     loginError.textContent = '';
-    if(userType === 'student'){
+    if(userType === 'student')
+      {
       showSection('student-section');
       renderStudentCertificates();
-    } else if(userType === 'university'){
+    } 
+    else if(userType === 'university')
+      {
       showSection('university-section');
       renderRequests();
-    } else {
-      alert("Admin logged in successfully!");
+    } 
+    else if (userType == 'admin') 
+      {
+      showSection('admin-section');
+      renderAdminDashboard();
     }
   } else {
     loginError.textContent = "Invalid credentials!";
@@ -101,6 +107,63 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
     msg.textContent = result.message;
   }
 });
+
+// ===== Admin Dashboard =====
+function renderAdminDashboard() {
+  renderAdminUsers();
+  renderAdminCertificates();
+}
+
+// Show all users
+function renderAdminUsers() {
+  const creds = loadCredentials();
+  const container = document.getElementById('adminUsers');
+  container.innerHTML = '';
+
+  for (let role in creds) {
+    const roleDiv = document.createElement('div');
+    roleDiv.className = 'admin-role';
+    roleDiv.innerHTML = `<h4>${role.toUpperCase()}</h4>`;
+    creds[role].forEach(u => {
+      roleDiv.innerHTML += `<p>👤 ${u.username}</p>`;
+    });
+    container.appendChild(roleDiv);
+  }
+}
+
+// Show all certificates
+function renderAdminCertificates() {
+  const certificates = JSON.parse(localStorage.getItem('certificates')) || [];
+  const container = document.getElementById('adminCertificates');
+  container.innerHTML = '';
+
+  if (certificates.length === 0) {
+    container.innerHTML = '<p>No certificates uploaded yet.</p>';
+    return;
+  }
+
+  certificates.forEach(cert => {
+    const card = document.createElement('div');
+    card.className = 'admin-cert';
+    card.innerHTML = `
+      <p><strong>Name:</strong> ${cert.name}</p>
+      <p><strong>Roll No:</strong> ${cert.rollNo}</p>
+      <p><strong>Course:</strong> ${cert.course}</p>
+      <p><strong>Status:</strong> ${cert.status}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Reset system
+function resetSystem() {
+  if(confirm("Are you sure you want to reset all data?")) {
+    localStorage.clear();
+    alert("System reset successfully!");
+    showLogin();
+  }
+}
+
 
 // ===== Student Portal: Upload Certificate =====
 document.getElementById('uploadForm').addEventListener('submit', function(e){
