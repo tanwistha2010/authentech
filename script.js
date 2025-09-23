@@ -4,9 +4,44 @@ function showSection(sectionId) {
   document.getElementById(sectionId).classList.add('active');
 }
 
+function showRegister() {
+  showSection('register-section');
+}
+
+function showLogin() {
+  showSection('login-section');
+}
+
 // ===== Logout =====
 function logout() {
   showSection('login-section');
+}
+
+// ===== Credential Helpers =====
+function loadCredentials(){
+  return JSON.parse(localStorage.getItem('credentials')) || {
+    student: [{ username:"student", password:"student123" } ],
+    university: [{ username:"uni", password:"uni123" }],
+    admin: [{ username:"admin", password:"admin123" }]
+  };
+}
+
+function saveCredentials(creds){
+  localStorage.setItem('credentials', JSON.stringify(creds));
+}
+
+function addUser(userType, username, password){
+  const creds = loadCredentials();
+  creds[userType] = creds[userType] || [];
+
+  // prevent duplicate usernames in same role
+  if(creds[userType].some(u => u.username === username)){
+    return { success:false, message:"Username already exists for this role!" };
+  }
+
+  creds[userType].push({ username, password });
+  saveCredentials(creds);
+  return { success:true, message:"User registered successfully!" };
 }
 
 // ===== Login Logic =====
@@ -17,20 +52,53 @@ document.getElementById('loginForm').addEventListener('submit', function(e){
   const userType = document.getElementById('userType').value;
   const loginError = document.getElementById('loginError');
 
-  // Simple demo credentials
-  const credentials = {
-    student: {username:"student", password:"student123"},
-    university: {username:"uni", password:"uni123"},
-    admin: {username:"admin", password:"admin123"}
+  const credentials = loadCredentials();
+  let validUser = false;
+
+  if(userType && credentials[userType]){
+    validUser = credentials[userType].some(
+      u => u.username === username && u.password === password
+    );
   }
 
-  if(userType && credentials[userType] && username === credentials[userType].username && password === credentials[userType].password){
+  if(validUser){
     loginError.textContent = '';
-    showSection(userType === 'student' ? 'student-section' : 'university-section');
-    if(userType === 'student') renderStudentCertificates();
-    if(userType === 'university') renderRequests();
+    if(userType === 'student'){
+      showSection('student-section');
+      renderStudentCertificates();
+    } else if(userType === 'university'){
+      showSection('university-section');
+      renderRequests();
+    } else {
+      alert("Admin logged in successfully!");
+    }
   } else {
     loginError.textContent = "Invalid credentials!";
+  }
+});
+
+// ===== Register Logic =====
+document.getElementById('registerForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const userType = document.getElementById('regUserType').value;
+  const username = document.getElementById('regUsername').value.trim();
+  const password = document.getElementById('regPassword').value.trim();
+  const msg = document.getElementById('registerError'); // FIXED
+
+  if(!username || !password || !userType){
+    msg.style.color = 'red';
+    msg.textContent = "Please fill all fields.";
+    return;
+  }
+
+  const result = addUser(userType, username, password);
+  if(result.success){
+    msg.style.color = 'green';
+    msg.textContent = result.message;
+    document.getElementById('registerForm').reset();
+  } else {
+    msg.style.color = 'red';
+    msg.textContent = result.message;
   }
 });
 
@@ -154,7 +222,7 @@ function updateCertificateStatus(index, status){
   renderStudentCertificates();
 }
 
-// ===== Auto-render sections =====
+// ===== Auto-refresh when active =====
 setInterval(() => {
   if(document.getElementById('university-section').classList.contains('active')){
     renderRequests();
