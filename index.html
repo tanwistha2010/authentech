@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Certificate Verification</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="validation-form">
+    <h2>Student Verification</h2>
+    <form id="verificationForm">
+      <div class="form-grid">
+         <div>
+          <label for="uniname">Name of University</label>
+          <input type="text" id="uniname" required>
+        </div>
+        <div>
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required>
+        </div>
+        <div>
+          <label for="collegeId">College ID[Student] </label>
+          <input type="text" id="collegeId" required>
+        </div>
+        <div>
+          <label for="year">Passout Year</label>
+          <input type="number" id="year" required>
+        </div>
+        <div>
+          <label for="course">Course Name</label>
+          <input type="text" id="course" required>
+        </div>
+        <div>
+          <label for="uniquecollegeId">Unique College ID [College] </label>
+          <input type="text" id="uniquecollegeId" required>
+        </div>
+        <div class="file-upload-wrapper">
+          <label for="certificate">Upload Certificate (PDF/Image)</label>
+          <input type="file" id="certificate" accept="application/pdf,image/png,image/jpeg" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary">Verify</button>
+    </form>
+  </div>
+
+  <!-- Result Section -->
+  <div id="resultSection" class="result-container hidden">
+    <p id="resultMessage"></p>
+    <button id="shareBtn" class="btn-secondary hidden">Generate Shareable Link</button>
+  </div>
+
+  <!-- Share Section -->
+  <div id="shareSection" class="shareable-link-container hidden">
+    <strong>Share this verification link:</strong>
+    <input type="text" id="shareLink" readonly>
+    <button onclick="copyLink()" class="btn-primary">Copy Link</button>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup" class="popup hidden">✅ Link copied to clipboard!</div>
+
+  <script src="script.js"></script>
+</body>
+</html>

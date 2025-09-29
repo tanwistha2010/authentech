@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Verification Result</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="result-container">
+    <h2>Certificate Verification Result</h2>
+    <div id="shareResult"></div>
+  </div>
+
+  <script>
+    // Read query parameters from URL
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
+    const collegeId = params.get("collegeId");
+    const year = params.get("year");
+    const course = params.get("course");
+
+    const shareResult = document.getElementById("shareResult");
+
+    if (name && collegeId && year && course) {
+      shareResult.innerHTML = `
+        ✅ This certificate belongs to:<br><br>
+        <strong>Name:</strong> ${name} <br>
+        <strong>College ID:</strong> ${collegeId} <br>
+        <strong>Year:</strong> ${year} <br>
+        <strong>Course:</strong> ${course}
+      `;
+    } else {
+      shareResult.innerHTML = "❌ Invalid or missing certificate details!";
+    }
+  </script>
+</body>
+</html>
